@@ -35,10 +35,15 @@ jobs:
       if: ${{ github.event.inputs.deploy_mode == 'apply' }}
       run: |
         cd /root/gitops/
-        helm template test-gitops ./mychart/ --output-dir /root/gitops/output/
+        helm template ${{github.event.inputs.env}}-gitops ./mychart/ --output-dir /root/gitops/output/
         cat /root/gitops/output/mychart/templates/deployment.yaml
         cat /root/gitops/output/mychart/templates/service.yaml
         cat /root/gitops/output/mychart/templates/configmap.yaml
+
+    - name: Deploy gitops
+      if: ${{ github.event.inputs.deploy_mode == 'apply' }}
+      run: |
+        argocd app create ${{github.event.inputs.env}}-gitops --repo https://github.com/oattoman7522/gitops.git --path output/mychart/templates/ --dest-namespace default --dest-server https://kubernetes.default.svc 
     # name: deploy
     # runs-on: [localhost]
     # environment: ${{ github.event.inputs.env }}
