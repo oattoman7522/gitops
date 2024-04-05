@@ -1,0 +1,19 @@
+---
+# Source: mychart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-test
+  name: nginx-test-service
+  namespace: nginx-test-ns
+spec:
+  ports:
+  - name: http
+    nodePort: 30680
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: nginx-test
+  type: NodePort

@@ -1,0 +1,9 @@
+---
+# Source: mychart/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-test-configmap
+  namespace: nginx-test-ns
+data:
+  myvalue: "Hello World"

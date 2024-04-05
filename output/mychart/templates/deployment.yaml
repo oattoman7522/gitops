@@ -1,0 +1,29 @@
+---
+# Source: mychart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nginx-test
+  name: nginx-test-deployment
+  namespace: nginx-test-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-test
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nginx-test
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-test
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
