@@ -18,11 +18,19 @@ on:
         options:
           - dryrun
           - apply
+      runner_node:
+        type: choice
+        description: runner server
+        required: true
+        default: "local"
+        options:
+          - local
+          - ThanakritP-SRS
 jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: self-hosted
+    runs-on: ${{ github.event.inputs.runner_node}}
     steps:
     - name: Run a multi-line script
       if: ${{ github.event.inputs.deploy_mode == 'dryrun' }}
