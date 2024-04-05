@@ -1,0 +1,19 @@
+---
+# Source: mychart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: test-gitops
+  name: test-gitops-service
+  namespace: test-gitops-ns
+spec:
+  ports:
+  - name: http
+    nodePort: 30680
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: test-gitops
+  type: NodePort

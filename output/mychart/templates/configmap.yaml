@@ -1,0 +1,9 @@
+---
+# Source: mychart/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-gitops-configmap
+  namespace: test-gitops-ns
+data:
+  myvalue: "Hello World"

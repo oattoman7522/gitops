@@ -1,0 +1,29 @@
+---
+# Source: mychart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: test-gitops
+  name: test-gitops-deployment
+  namespace: test-gitops-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-gitops
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: test-gitops
+    spec:
+      containers:
+      - image: nginx
+        name: test-gitops
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
