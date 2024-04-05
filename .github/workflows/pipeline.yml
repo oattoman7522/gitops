@@ -18,14 +18,7 @@ on:
         options:
           - dryrun
           - apply
-      runner_node:
-        type: choice
-        description: runner server
-        required: true
-        default: "local"
-        options:
-          - local
-          - ThanakritP-SRS
+
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -42,7 +35,6 @@ jobs:
       if: ${{ github.event.inputs.deploy_mode == 'apply' }}
       run: |
         cd /root/gitops/
-        git pull
         helm template test-gitops ./mychart/ --output-dir /root/gitops/output/
         cat /root/gitops/output/mychart/template/deployment.yaml
         cat /root/gitops/output/mychart/template/service.yaml
