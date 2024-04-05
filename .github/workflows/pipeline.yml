@@ -36,9 +36,9 @@ jobs:
       run: |
         cd /root/gitops/
         helm template test-gitops ./mychart/ --output-dir /root/gitops/output/
-        cat /root/gitops/output/mychart/template/deployment.yaml
-        cat /root/gitops/output/mychart/template/service.yaml
-        cat /root/gitops/output/mychart/template/configmap.yaml
+        cat /root/gitops/output/mychart/templates/deployment.yaml
+        cat /root/gitops/output/mychart/templates/service.yaml
+        cat /root/gitops/output/mychart/templates/configmap.yaml
     # name: deploy
     # runs-on: [localhost]
     # environment: ${{ github.event.inputs.env }}
