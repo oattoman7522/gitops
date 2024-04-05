@@ -1,0 +1,43 @@
+name: test-gitops
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        type: choice
+        description: Environment
+        required: true
+        default: "local"
+        options:
+          - local
+      deploy_mode:
+        type: choice
+        description: Deployment Run mode
+        required: true
+        default: "dryrun"
+        options:
+          - dryrun
+          - apply
+
+  jobs:
+  project-deploy:
+    name: deploy
+    runs-on: [localhost]
+    environment: ${{ github.event.inputs.env }}
+    steps:
+      - name: Checkout Helm Repository
+        uses: test-few
+        with:
+          repository: gitops/mychart
+          ref: main
+          token: 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
+          path: ./mychart
+
+      - name: "Dry run Build Template and Deploy"
+        if: ${{ github.event.inputs.deploy_mode == 'dryrun' }}
+        run: |
+          helm template ${{github.event.inputs.env}} ./mychart/ --output-dir output/ --debug
+          
+          cat output/mychart/template/deployment.yaml
+          cat output/mychart/template/service.yaml
+          cat output/mychart/template/configmap.yaml
