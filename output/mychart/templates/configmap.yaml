@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: uat-app-configmap
-  namespace: uat-app-ns
+  name: prd-app-configmap
+  namespace: prd-app-ns
 data:
   myvalue: "Hello World"

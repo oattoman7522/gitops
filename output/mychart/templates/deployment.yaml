@@ -5,24 +5,24 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: uat-app
-  name: uat-app-deployment
-  namespace: uat-app-ns
+    app: prd-app
+  name: prd-app-deployment
+  namespace: prd-app-ns
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: uat-app
+      app: prd-app
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: uat-app
+        app: prd-app
     spec:
       containers:
       - image: nginx
-        name: uat-app
+        name: prd-app
         ports:
         - containerPort: 80
         resources: {}
