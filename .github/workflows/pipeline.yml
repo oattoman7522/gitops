@@ -56,8 +56,9 @@ jobs:
         cat /root/git-argocd/gitops/output/mychart/templates/service.yaml
         cat /root/git-argocd/gitops/output/mychart/templates/configmap.yaml
         cat /root/git-argocd/gitops/output/mychart/templates/namespace.yaml
+        git fetch
         git add .
-        git commit -m "new version"
+        git commit -m "1"
         git push origin main
 
     - name: Apply Deploy gitops
