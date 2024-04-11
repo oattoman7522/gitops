@@ -42,18 +42,20 @@ jobs:
       run: |
         cd /root/git-argocd/gitops/
         helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/git-argocd/gitops/output/
-        cat /root/gitops/output/mychart/templates/deployment.yaml
-        cat /root/gitops/output/mychart/templates/service.yaml
-        cat /root/gitops/output/mychart/templates/configmap.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/deployment.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/service.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/configmap.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/namespace.yaml
 
     - name: Apply test-gitops
       if: ${{ github.event.inputs.deploy_mode == 'apply' }}
       run: |
         cd /root/git-argocd/gitops
         helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/git-argocd/gitops/output/
-        cat /root/gitops/output/mychart/templates/deployment.yaml
-        cat /root/gitops/output/mychart/templates/service.yaml
-        cat /root/gitops/output/mychart/templates/configmap.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/deployment.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/service.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/configmap.yaml
+        cat /root/git-argocd/gitops/output/mychart/templates/namespace.yaml
         git push origin main
 
     - name: Apply Deploy gitops
