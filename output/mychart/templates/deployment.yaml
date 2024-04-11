@@ -5,24 +5,24 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: nginx-test
-  name: nginx-test-deployment
-  namespace: nginx-test-ns
+    app: sit-app
+  name: sit-app-deployment
+  namespace: sit-app-ns
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx-test
+      app: sit-app
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: nginx-test
+        app: sit-app
     spec:
       containers:
       - image: nginx
-        name: nginx-test
+        name: sit-app
         ports:
         - containerPort: 80
         resources: {}
