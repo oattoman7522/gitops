@@ -61,7 +61,8 @@ jobs:
     - name: Apply Deploy gitops
       if: ${{ github.event.inputs.deploy_mode == 'apply' }}
       run: |
-        argocd app create ${{github.event.inputs.env}}-gitops --repo ${{github.event.inputs.repository}} --path output/mychart/templates/ --dest-namespace ${{github.event.inputs.env}}-ns --dest-server https://kubernetes.default.svc 
+        argocd app create ${{github.event.inputs.env}}-app --repo ${{github.event.inputs.repository}} --path output/mychart/templates/ --dest-namespace ${{github.event.inputs.env}}-ns --dest-server https://kubernetes.default.svc
+        argocd app sync ${{github.event.inputs.env}}-app
     # name: deploy
     # runs-on: [localhost]
     # environment: ${{ github.event.inputs.env }}
