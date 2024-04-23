@@ -4,9 +4,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: prd-app
-  name: prd-app-service
-  namespace: prd-app-ns
+    app: uat-app
+  name: uat-app-service
+  namespace: uat-app-ns
 spec:
   ports:
   - name: http
@@ -15,5 +15,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: prd-app
+    app: uat-app
   type: NodePort
