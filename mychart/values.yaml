@@ -46,7 +46,6 @@ typeservice: NodePort
 service:
   type: ClusterIP
   port: 80
-  nodeport: 30680
 
 ingress:
   enabled: false
