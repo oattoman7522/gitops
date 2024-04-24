@@ -41,7 +41,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-typeservice: NodePort
+
 
 service:
   type: ClusterIP
