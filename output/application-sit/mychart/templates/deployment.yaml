@@ -1,0 +1,29 @@
+---
+# Source: mychart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: sit-app
+  name: sit-app-deployment
+  namespace: sit-app-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sit-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: sit-app
+    spec:
+      containers:
+      - image: nginx
+        name: sit-app
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
