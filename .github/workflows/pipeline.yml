@@ -22,6 +22,14 @@ on:
         options:
           - dryrun
           - apply
+      times:
+        type: choice
+        description: How many times?
+        required: true
+        default: "Not-the-first-time"
+        options:
+          - Not-the-first-time
+          - the-first-time
       repository:
         type: choice
         description: repository
@@ -30,6 +38,14 @@ on:
         options:
           - local
           - https://github.com/oattoman7522/gitops.git
+      server_k8s:
+        type: choice
+        description: server_k8s
+        required: true
+        default: "local"
+        options:
+          - local
+          - https://kubernetes.default.svc
       runner_tag:
         type: choice
         description:  Github Runner
@@ -50,23 +66,37 @@ jobs:
     - self-hosted
     - ${{ github.event.inputs.runner_tag }}
     steps:
-    - name: Dry run test-gitops
+    - name: Dry run helm-templat test-gitops
       if: ${{ github.event.inputs.deploy_mode == 'dryrun' }}
       working-directory: ${{env.Directory}}
       run: |
         git fetch
         git pull
-        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir output/application-${{github.event.inputs.env}}/
+        helm template ${{github.event.inputs.env}}-app ./mychart/templates \
+          --values mychart/values.yaml \
+          --set gitrepo=${{github.event.inputs.repository}} \
+          --set pathgitops=output/application-${{github.event.inputs.env}}/mychart/templates/ \ 
+          --set serverk8s=${{github.event.input.server_k8s}} \
+          --output-dir output/application-${{github.event.inputs.env}}/
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
 
-    - name: Apply test-gitops
+    - name: Apply helm-template test-gitops
       if: ${{ github.event.inputs.deploy_mode == 'apply' }}
       working-directory: ${{env.Directory}}
       run: |
-        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir output/application-${{github.event.inputs.env}}/
+        git fetch
+        git pull
+        helm template ${{github.event.inputs.env}}-app ./mychart/templates \
+          --values mychart/values.yaml \
+          --set gitrepo=${{github.event.inputs.repository}} \
+          --set pathgitops=output/application-${{github.event.inputs.env}}/mychart/templates/ \ 
+          --set serverk8s=${{github.event.input.server_k8s}} \
+          --output-dir output/application-${{github.event.inputs.env}}/
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
@@ -75,6 +105,14 @@ jobs:
         git add .
         git commit -m "update version env-${{github.event.inputs.env}}"
         git push origin implement
+
+    # - name: Apply deploy gitops test-gitops
+    #   if: ${{ github.event.inputs.deploy_mode == 'apply'}} || ${{ github.event.input.times == 'the-first-time' }}
+    #   working-directory: ${{env.Directory}}/argo-template
+    #   run: | 
+
+
+
 
     # - name: Apply Deploy gitops
     #   if: ${{ github.event.inputs.deploy_mode == 'apply' }}

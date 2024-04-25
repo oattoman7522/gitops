@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Release.Name }}
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: {{.Values.gitrepo}}
+    targetRevision: HEAD
+    path: {{.Values.pathgitops}}
+  destination:
+    server: {{.Values.serverk8s}}
+    namespace: {{.Release.Name}}-ns
