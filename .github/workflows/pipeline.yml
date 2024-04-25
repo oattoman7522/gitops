@@ -90,7 +90,7 @@ jobs:
       run: |
         git fetch
         git pull
-        helm template ${{github.event.inputs.env}}-app ./mychart/templates \
+        helm template ${{github.event.inputs.env}}-app ./mychart \
           --values mychart/values.yaml \
           --set gitrepo=${{github.event.inputs.repository}} \
           --set pathgitops=output/application-${{github.event.inputs.env}}/mychart/templates/ \ 
