@@ -39,6 +39,9 @@ on:
           - local
           - wsl
 
+env:
+  Directory: "/root/gitops/gitops"
+
 jobs:
   # This workflow contains a single job called "build"
   build:
@@ -49,25 +52,25 @@ jobs:
     steps:
     - name: Dry run test-gitops
       if: ${{ github.event.inputs.deploy_mode == 'dryrun' }}
+      working-directory: ${{env.Directory}}
       run: |
-        cd /root/gitops/gitops/
         git fetch
         git pull
-        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/gitops/gitops/output/application-${{github.event.inputs.env}}/
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
+        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir output/application-${{github.event.inputs.env}}/
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
 
     - name: Apply test-gitops
       if: ${{ github.event.inputs.deploy_mode == 'apply' }}
+      working-directory: ${{env.Directory}}
       run: |
-        cd /root/gitops/gitops/
-        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/gitops/gitops/output/application-${{github.event.inputs.env}}/
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
-        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
+        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir output/application-${{github.event.inputs.env}}/
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
+        cat output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
         git fetch
         git add .
         git commit -m "update version env-${{github.event.inputs.env}}"
