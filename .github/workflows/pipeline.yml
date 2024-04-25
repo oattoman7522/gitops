@@ -70,7 +70,7 @@ jobs:
         cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
         git fetch
         git add .
-        git commit -m "update version"
+        git commit -m "update version env-${{github.event.inputs.env}}"
         git push origin implement
 
     # - name: Apply Deploy gitops
