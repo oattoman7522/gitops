@@ -72,7 +72,12 @@ jobs:
       run: |
         git fetch
         git pull
-        helm template ${{github.event.inputs.env}}-app ./mychart/templates --values mychart/values.yaml --set gitrepo=${{github.event.inputs.repository}} --set pathgitops=output/application-${{github.event.inputs.env}}/mychart/templates/ --set serverk8s=${{github.event.inputs.server_k8s}} --output-dir output/application-${{github.event.inputs.env}}/
+        helm template ${{github.event.inputs.env}}-app ./mychart \
+          --values mychart/values.yaml \
+          --set gitrepo=${{github.event.inputs.repository}} \
+          --set pathgitops=output/application-${{github.event.inputs.env}}/mychart/templates/ \ 
+          --set serverk8s=${{github.event.inputs.server_k8s}} \
+          --output-dir output/application-${{github.event.inputs.env}}/
         cat output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
@@ -89,7 +94,7 @@ jobs:
           --values mychart/values.yaml \
           --set gitrepo=${{github.event.inputs.repository}} \
           --set pathgitops=output/application-${{github.event.inputs.env}}/mychart/templates/ \ 
-          --set serverk8s=${{github.event.input.server_k8s}} \
+          --set serverk8s=${{github.event.inputs.server_k8s}} \
           --output-dir output/application-${{github.event.inputs.env}}/
         cat output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
