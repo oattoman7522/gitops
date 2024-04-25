@@ -1,0 +1,19 @@
+---
+# Source: mychart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dev-app
+  name: dev-app-service
+  namespace: dev-app-ns
+spec:
+  ports:
+  - name: http
+    nodePort: 
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: dev-app
+  type:

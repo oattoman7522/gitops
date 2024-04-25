@@ -1,0 +1,29 @@
+---
+# Source: mychart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: dev-app
+  name: dev-app-deployment
+  namespace: dev-app-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dev-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: dev-app
+    spec:
+      containers:
+      - image: nginx
+        name: dev-app
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
