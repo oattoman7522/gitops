@@ -1,0 +1,8 @@
+---
+# Source: mychart/templates/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: uat-app-ns
+spec: {}
+status: {}
