@@ -30,42 +30,54 @@ on:
         options:
           - local
           - https://github.com/oattoman7522/gitops.git
+      runner_tag:
+        type: choice
+        description:  Github Runner
+        required: true
+        default: "local"
+        options:
+          - local
+          - wsl
 
 jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: [self-hosted, wsl]
+    runs-on:
+    - self-hosted
+    - ${{ github.event.inputs.runner_tag }}
     steps:
     - name: Dry run test-gitops
       if: ${{ github.event.inputs.deploy_mode == 'dryrun' }}
       run: |
-        cd /root/git-argocd/gitops/
-        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/git-argocd/gitops/output/
-        cat /root/git-argocd/gitops/output/mychart/templates/deployment.yaml
-        cat /root/git-argocd/gitops/output/mychart/templates/service.yaml
-        cat /root/git-argocd/gitops/output/mychart/templates/configmap.yaml
-        cat /root/git-argocd/gitops/output/mychart/templates/namespace.yaml
+        cd /root/git-argocd/gitops/gitops/
+        git fetch
+        git pull
+        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/gitops/gitops/output/application-${{github.event.inputs.env}}/
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
 
     - name: Apply test-gitops
       if: ${{ github.event.inputs.deploy_mode == 'apply' }}
       run: |
-        cd /root/git-argocd/gitops
-        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/git-argocd/gitops/output/
-        cat /root/git-argocd/gitops/output/mychart/templates/deployment.yaml
-        cat /root/git-argocd/gitops/output/mychart/templates/service.yaml
-        cat /root/git-argocd/gitops/output/mychart/templates/configmap.yaml
-        cat /root/git-argocd/gitops/output/mychart/templates/namespace.yaml
+        cd /root/git-argocd/gitops/gitops/
+        helm template ${{github.event.inputs.env}}-app ./mychart/ --output-dir /root/gitops/gitops/output/application-${{github.event.inputs.env}}/
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/deployment.yaml
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
+        cat /root/gitops/gitops/output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
         git fetch
         git add .
-        git commit -m "1"
-        git push origin main
+        git commit -m "update version"
+        git push origin implement
 
-    - name: Apply Deploy gitops
-      if: ${{ github.event.inputs.deploy_mode == 'apply' }}
-      run: |
-        argocd app create ${{github.event.inputs.env}}-app --repo ${{github.event.inputs.repository}} --path output/mychart/templates/ --dest-namespace ${{github.event.inputs.env}}-ns --dest-server https://kubernetes.default.svc
-        argocd app sync ${{github.event.inputs.env}}-app
+    # - name: Apply Deploy gitops
+    #   if: ${{ github.event.inputs.deploy_mode == 'apply' }}
+    #   run: |
+    #     argocd app create ${{github.event.inputs.env}}-app --repo ${{github.event.inputs.repository}} --path output/mychart/templates/ --dest-namespace ${{github.event.inputs.env}}-ns --dest-server https://kubernetes.default.svc
+    #     argocd app sync ${{github.event.inputs.env}}-app
     # name: deploy
     # runs-on: [localhost]
     # environment: ${{ github.event.inputs.env }}
