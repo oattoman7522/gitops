@@ -97,7 +97,7 @@ jobs:
         git push origin implement
 
     - name: Apply deploy gitops test-gitops
-      if: ${{ github.event.inputs.deploy_mode == 'apply'}} || ${{ github.event.input.times == 'the-first-time' }}
+      if: ${{ github.event.input.times == 'the-first-time' }}
       working-directory: ${{env.Directory}}
       run: | 
         cat output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml
