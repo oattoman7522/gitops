@@ -1,8 +1,0 @@
----
-# Source: mychart/templates/namespace.yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: dev-app-ns
-spec: {}
-status: {}

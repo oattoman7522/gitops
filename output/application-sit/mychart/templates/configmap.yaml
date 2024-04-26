@@ -1,9 +1,0 @@
----
-# Source: mychart/templates/configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: sit-app-configmap
-  namespace: sit-app-ns
-data:
-  myvalue: "Hello World"
