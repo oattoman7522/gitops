@@ -91,6 +91,7 @@ jobs:
         cat output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
+        mkdir -p argocd/application-${{github.event.inputs.env}}
         mv output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
         git fetch
         git add .
