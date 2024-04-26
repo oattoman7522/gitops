@@ -103,7 +103,7 @@ jobs:
       working-directory: ${{env.Directory}}
       run: | 
         cat arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
-        kubectl create -f arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
+        kubectl create -f argocd/application-${{github.event.inputs.env}}/argo-template.yaml
         kubectl get application -n argocd
 
 
