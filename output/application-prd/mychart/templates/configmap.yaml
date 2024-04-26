@@ -1,0 +1,9 @@
+---
+# Source: mychart/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prd-app-configmap
+  namespace: prd-app-ns
+data:
+  myvalue: "Hello World"

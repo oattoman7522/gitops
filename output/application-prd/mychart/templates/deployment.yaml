@@ -1,0 +1,29 @@
+---
+# Source: mychart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: prd-app
+  name: prd-app-deployment
+  namespace: prd-app-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prd-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: prd-app
+    spec:
+      containers:
+      - image: nginx
+        name: prd-app
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
