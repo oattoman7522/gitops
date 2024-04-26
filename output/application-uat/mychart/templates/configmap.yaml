@@ -1,9 +1,0 @@
----
-# Source: mychart/templates/configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: uat-app-configmap
-  namespace: uat-app-ns
-data:
-  myvalue: "Hello World"
