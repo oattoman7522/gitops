@@ -5,9 +5,12 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  syncPolicy:
+    automated:
+      selfHeal: true
   source:
     repoURL: {{.Values.gitrepo}}
-    targetRevision: HEAD
+    targetRevision: implement
     path: {{.Values.pathgitops}}
   destination:
     server: {{.Values.serverk8s}}

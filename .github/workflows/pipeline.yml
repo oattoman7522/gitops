@@ -100,8 +100,9 @@ jobs:
       if: ${{ github.event.input.times == 'the-first-time' }}
       working-directory: ${{env.Directory}}
       run: | 
-        cat output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml
-        kubectl create -f output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml
+        mv output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
+        cat arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
+        kubectl create -f arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
         kubectl get application -n argocd
 
 
