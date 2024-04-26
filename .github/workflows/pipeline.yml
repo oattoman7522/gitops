@@ -91,6 +91,7 @@ jobs:
         cat output/application-${{github.event.inputs.env}}/mychart/templates/service.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/configmap.yaml
         cat output/application-${{github.event.inputs.env}}/mychart/templates/namespace.yaml
+        mv output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
         git fetch
         git add .
         git commit -m "update version env-${{github.event.inputs.env}}"
@@ -100,7 +101,6 @@ jobs:
       if: ${{ github.event.input.times == 'the-first-time' }}
       working-directory: ${{env.Directory}}
       run: | 
-        mv output/application-${{github.event.inputs.env}}/mychart/templates/argo-template.yaml arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
         cat arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
         kubectl create -f arogcd/application-${{github.event.inputs.env}}/argo-template.yaml
         kubectl get application -n argocd
